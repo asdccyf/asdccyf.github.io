@@ -1,0 +1,103 @@
+<html>
+
+<head>
+    <base target="_blank"><!-- Title: The Matrix 4K -->
+
+    <title>The Matrix 4K</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        canvas {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .matrix-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #000;
+        }
+
+        .matrix-text {
+            font-size: 48px;
+            color: #00FF00;
+            font-family: 'Courier New', Courier, monospace;
+        }
+    </style>
+    <style id="__web-inspector-hide-shortcut-style__">
+        .__web-inspector-hide-shortcut__,
+        .__web-inspector-hide-shortcut__ *,
+        .__web-inspector-hidebefore-shortcut__::before,
+        .__web-inspector-hideafter-shortcut__::after {
+            visibility: hidden !important;
+        }
+    </style>
+</head>
+
+<body class="vsc-initialized">
+    <div class="matrix-container">
+        <canvas id="canvas" width="2048" height="946"></canvas>
+        <div class="matrix-text">WELCOME TO MY GITHUB!</div>
+    </div>
+    <script>
+        var canvas = document.getElementById('canvas');
+        var ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        var matrix = 'あ　い　う　え　お か　き　く　け　こ さ　し　す　せ　そ た　ち　つ　と な　に　ぬ　ね　の は　ひ　ふ　へ　ほ ま　み　む　め　も や　ゆ　よ ら　り　る　れ　ろ わ　を ん';
+        // var matrix = '你　好　吃　饭　了　么 再　见 陈　思　维';
+        matrix = matrix.split('');
+
+        var font_size = 10;
+        var columns = canvas.width / font_size;
+        var drops = [];
+
+        // Function to start the animation
+        function startAnimation() {
+            for (var x = 0; x < columns; x++) {
+                drops[x] = 1;
+            }
+
+            function draw() {
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                ctx.fillStyle = '#0F0';
+                ctx.font = font_size + 'px arial';
+
+                for (var i = 0; i < drops.length; i++) {
+                    var text = matrix[Math.floor(Math.random() * matrix.length)];
+                    ctx.fillText(text, i * font_size, drops[i] * font_size);
+
+                    if (drops[i] * font_size > canvas.height && Math.random() > 0.975) {
+                        drops[i] = 0;
+                    }
+
+                    drops[i]++;
+                }
+            }
+
+            setInterval(draw, 35);
+        }
+
+        // Delay the start of the animation by 6 seconds
+        setTimeout(startAnimation, 4000);
+    </script>
+
+
+</body>
+
+</html>
