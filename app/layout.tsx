@@ -16,12 +16,7 @@ export const metadata: Metadata = {
   title: "FEI",
   description: "FEI的个人网站",
   icons: {
-    icon: [
-      {
-        url: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23000'/%3E%3Ctext x='50' y='70' font-size='60' fill='white' text-anchor='middle' font-family='Arial,sans-serif' font-weight='bold'%3EF%3C/text%3E%3C/svg%3E",
-        type: "image/svg+xml",
-      },
-    ],
+    icon: '/经典头像.jpg',
   },
 };
 
