@@ -8,7 +8,8 @@
     "export": "next build",
     "start": "next start",
     "lint": "next lint",
-    "deploy": "next build && New-Item -Path out\\.nojekyll -ItemType File -Force && Copy-Item -Path out\\* -Destination . -Recurse -Force"
+    "deploy": "next build && New-Item -Path out\\.nojekyll -ItemType File -Force && Copy-Item -Path out\\* -Destination . -Recurse -Force",
+    "deploy-full": "npm run deploy && git add -A && git commit -m \"更新网站\" && git push origin main"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.3",

@@ -1,10 +1,9 @@
-name: Deploy Next.js to GitHub Pages
+name: 部署到GitHub Pages
 
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -31,7 +30,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
         
-      - name: Build
+      - name: Build website
         run: npm run build
         
       - name: Upload artifact
