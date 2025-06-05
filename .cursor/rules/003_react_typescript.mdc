@@ -1,0 +1,93 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# React + TypeScript 开发规范
+
+## 组件设计原则
+- 优先使用函数组件和 Hooks
+- 组件名使用 PascalCase
+- 文件名与组件名保持一致
+- 单一职责原则：每个组件只做一件事
+- 可复用组件放在 `components/` 目录
+
+## TypeScript 类型定义
+```typescript
+// 组件属性接口
+interface ButtonProps {
+  children: React.ReactNode
+  variant?: 'default' | 'primary' | 'secondary'
+  size?: 'sm' | 'md' | 'lg'
+  disabled?: boolean
+  onClick?: () => void
+  className?: string
+}
+
+// 组件实现
+export function Button({ children, variant = 'default', ...props }: ButtonProps) {
+  return (
+    <button {...props}>
+      {children}
+    </button>
+  )
+}
+```
+
+## 组件文件结构
+```typescript
+'use client' // 仅在需要时添加
+
+import { forwardRef } from 'react'
+import { cn } from '@/lib/utils'
+
+// 类型定义
+interface ComponentProps {
+  // 属性定义
+}
+
+// 组件实现
+const Component = forwardRef<HTMLElement, ComponentProps>(
+  ({ className, ...props }, ref) => {
+    return (
+      <div
+        ref={ref}
+        className={cn("base-styles", className)}
+        {...props}
+      />
+    )
+  }
+)
+Component.displayName = "Component"
+
+export { Component, type ComponentProps }
+```
+
+## Hooks使用规范
+- 自定义Hook以 `use` 开头
+- Hook只能在组件顶层调用
+- 状态管理优先使用 `useState` 和 `useReducer`
+- 副作用使用 `useEffect`，依赖数组必须完整
+- 性能优化使用 `useMemo` 和 `useCallback`
+
+## 事件处理
+- 事件处理函数以 `handle` 开头
+- 使用 TypeScript 事件类型
+```typescript
+const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  event.preventDefault()
+  // 处理逻辑
+}
+```
+
+## 条件渲染和列表渲染
+```typescript
+// 条件渲染
+{isVisible && <Component />}
+{condition ? <ComponentA /> : <ComponentB />}
+
+// 列表渲染
+{items.map((item) => (
+  <Item key={item.id} data={item} />
+))}
+```

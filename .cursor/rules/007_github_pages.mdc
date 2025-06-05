@@ -1,0 +1,118 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# GitHub Pages 部署规范
+
+## 静态导出配置
+```typescript
+// next.config.ts
+const nextConfig = {
+  output: 'export',
+  trailingSlash: true,
+  images: {
+    unoptimized: true
+  },
+  basePath: process.env.NODE_ENV === 'production' ? '/asdccyf.github.io' : '',
+  assetPrefix: process.env.NODE_ENV === 'production' ? '/asdccyf.github.io/' : '',
+}
+```
+
+## 部署脚本
+```batch
+@REM deploy.bat
+npm run build
+New-Item -Path out\.nojekyll -ItemType File -Force
+Copy-Item -Path out\* -Destination . -Recurse -Force
+```
+
+## package.json脚本
+```json
+{
+  "scripts": {
+    "build": "next build",
+    "export": "next build",
+    "deploy": "next build && New-Item -Path out\\.nojekyll -ItemType File -Force && Copy-Item -Path out\\* -Destination . -Recurse -Force",
+    "deploy-full": "npm run deploy && git add -A && git commit -m \"更新网站\" && git push origin main"
+  }
+}
+```
+
+## GitHub Pages特殊要求
+1. **`.nojekyll` 文件**：禁用Jekyll处理
+2. **静态资源路径**：确保所有资源使用相对路径
+3. **404页面**：提供自定义404.html页面
+4. **HTTPS**：GitHub Pages自动启用HTTPS
+
+## 构建限制
+- 不能使用服务端渲染（SSR）
+- 不能使用API路由
+- 不能使用动态路由（除非预生成）
+- 图片必须设置 `unoptimized: true`
+
+## 文件结构
+```
+out/                    # 构建输出目录
+├── _next/             # Next.js静态资源
+├── 404.html           # 404页面
+├── index.html         # 首页
+└── .nojekyll          # 禁用Jekyll
+
+public/                # 静态资源
+├── favicon.ico
+├── images/
+└── icons/
+
+.github/               # GitHub Actions工作流
+└── workflows/
+    └── deploy.yml     # 自动部署配置
+```
+
+## 自动部署工作流
+```yaml
+# .github/workflows/deploy.yml
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Build
+        run: npm run build
+        
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./out
+```
+
+## 优化建议
+- 启用资源压缩
+- 使用CDN加速静态资源
+- 优化图片格式和大小
+- 减少JavaScript包大小
+- 启用缓存策略
+
+## 域名配置
+如果使用自定义域名：
+1. 在仓库根目录添加 `CNAME` 文件
+2. 在GitHub Pages设置中配置域名
+3. 确保DNS记录正确指向GitHub Pages
+

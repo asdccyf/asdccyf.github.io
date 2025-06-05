@@ -1,0 +1,45 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# 项目概述
+这是一个现代化的个人网站项目，灵感来源于"21st"风格界面，部署到GitHub Pages。
+
+## 核心技术栈
+- **框架**: Next.js 15 (App Router)
+- **UI库**: React 19 + TypeScript 5
+- **样式**: Tailwind CSS 4 + CSS变量
+- **动画**: Framer Motion 12
+- **组件**: Radix UI + 自定义UI组件
+- **图标**: Lucide React
+- **部署**: GitHub Pages (静态导出)
+
+## 项目结构
+```
+app/                    # App Router页面
+├── page.tsx           # 首页
+├── layout.tsx         # 根布局
+├── globals.css        # 全局样式
+└── not-found.tsx      # 404页面
+
+components/             # 可复用组件
+└── ui/                # UI组件库
+    ├── button.tsx     # 按钮组件
+    └── background-paths.tsx  # 背景动画组件
+
+lib/                   # 工具函数库
+public/               # 静态资源
+```
+
+## 开发约束
+- 使用静态导出模式，兼容GitHub Pages
+- 所有组件必须支持SSG
+- 避免使用仅客户端的Next.js特性
+- 优先考虑性能和加载速度
+- 支持响应式设计和深色模式
+
+## 部署流程
+- 使用 `npm run deploy` 构建并准备部署
+- 使用 `npm run deploy-full` 自动提交并推送到GitHub
+

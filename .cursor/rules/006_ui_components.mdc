@@ -1,0 +1,173 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# UI组件库设计规范
+
+## 组件设计原则
+- 可复用性：组件应该在不同场景下可复用
+- 可组合性：小组件可以组合成复杂组件
+- 可访问性：支持键盘导航和屏幕阅读器
+- 一致性：遵循统一的设计语言
+
+## 组件架构模式
+```typescript
+import { forwardRef } from 'react'
+import { Slot } from '@radix-ui/react-slot'
+import { cva, type VariantProps } from 'class-variance-authority'
+import { cn } from '@/lib/utils'
+
+// 1. 变体定义
+const componentVariants = cva(
+  "base-styles", // 基础样式
+  {
+    variants: {
+      variant: {
+        default: "default-styles",
+        secondary: "secondary-styles",
+      },
+      size: {
+        sm: "small-styles",
+        md: "medium-styles",
+        lg: "large-styles",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "md",
+    },
+  }
+)
+
+// 2. 属性接口
+interface ComponentProps
+  extends React.HTMLAttributes<HTMLElement>,
+    VariantProps<typeof componentVariants> {
+  asChild?: boolean
+}
+
+// 3. 组件实现
+const Component = forwardRef<HTMLElement, ComponentProps>(
+  ({ className, variant, size, asChild = false, ...props }, ref) => {
+    const Comp = asChild ? Slot : "div"
+    
+    return (
+      <Comp
+        className={cn(componentVariants({ variant, size, className }))}
+        ref={ref}
+        {...props}
+      />
+    )
+  }
+)
+Component.displayName = "Component"
+
+// 4. 导出
+export { Component, componentVariants, type ComponentProps }
+```
+
+## 现有组件参考
+
+### Button组件模式
+```typescript
+// 参考 components/ui/button.tsx
+import { Slot } from "@radix-ui/react-slot"
+import { cva, type VariantProps } from "class-variance-authority"
+
+const buttonVariants = cva(
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  {
+    variants: {
+      variant: {
+        default: "bg-primary text-primary-foreground shadow hover:bg-primary/90",
+        destructive: "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
+        outline: "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
+        secondary: "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
+        ghost: "hover:bg-accent hover:text-accent-foreground",
+        link: "text-primary underline-offset-4 hover:underline",
+      },
+      size: {
+        default: "h-9 px-4 py-2",
+        sm: "h-8 rounded-md px-3 text-xs",
+        lg: "h-10 rounded-md px-8",
+        icon: "h-9 w-9",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "default",
+    },
+  }
+)
+```
+
+### 背景动画组件模式
+```typescript
+// 参考 components/ui/background-paths.tsx
+'use client'
+
+import { motion } from 'framer-motion'
+
+interface BackgroundPathsProps {
+  className?: string
+}
+
+export function BackgroundPaths({ className }: BackgroundPathsProps) {
+  return (
+    <div className={cn("absolute inset-0 overflow-hidden", className)}>
+      <svg className="absolute inset-0 h-full w-full">
+        <motion.path
+          d="M0,50 Q50,0 100,50 T200,50"
+          stroke="currentColor"
+          strokeWidth="2"
+          fill="none"
+          className="text-muted-foreground/20"
+          initial={{ pathLength: 0 }}
+          animate={{ pathLength: 1 }}
+          transition={{ duration: 2, ease: "easeInOut" }}
+        />
+      </svg>
+    </div>
+  )
+}
+```
+
+## 工具函数
+```typescript
+// lib/utils.ts
+import { clsx, type ClassValue } from "clsx"
+import { twMerge } from "tailwind-merge"
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
+}
+```
+
+## 可访问性要求
+- 使用语义化HTML元素
+- 提供适当的ARIA属性
+- 支持键盘导航
+- 确保足够的颜色对比度
+- 支持屏幕阅读器
+
+```typescript
+<button
+  aria-label="关闭对话框"
+  aria-expanded={isOpen}
+  tabIndex={0}
+  onKeyDown={(e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      handleClick()
+    }
+  }}
+>
+```
+
+## 组件文档
+每个组件应该包含：
+- 使用示例
+- 属性说明
+- 变体展示
+- 可访问性说明
+
