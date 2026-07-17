@@ -110,7 +110,7 @@ export function BackgroundPaths({
                             hover:shadow-md hover:shadow-white/20"
                         >
                             <span className="opacity-90 group-hover:opacity-100 transition-opacity">
-                                探索我的作品
+                                查看我的简历
                             </span>
                             <span
                                 className="ml-3 opacity-70 group-hover:opacity-100 group-hover:translate-x-1.5 
