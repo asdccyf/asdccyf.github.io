@@ -1,6 +1,24 @@
 import { BackgroundPaths } from "@/components/ui/background-paths";
 import Image from "next/image";
 
+const skills = [
+  {
+    icon: "💻",
+    title: "软件开发",
+    description: "Python, C#, Java, C++, MySQL",
+  },
+  {
+    icon: "🤖",
+    title: "AI 应用",
+    description: "RAG, 知识库平台, 文档解析, 检索问答",
+  },
+  {
+    icon: "🔗",
+    title: "系统联调",
+    description: "Qt, XML, ZeroMQ, 前后端联调",
+  },
+];
+
 export default function Home() {
   return (
     <main className="relative">
@@ -15,10 +33,11 @@ export default function Home() {
               height={40}
               className="rounded-full"
             />
-            <span className="text-white font-medium">我的个人网站</span>
+            <span className="text-white font-medium">FEI的个人网站</span>
           </div>
           <div className="hidden md:flex items-center gap-6 text-gray-300">
             <a href="#about" className="hover:text-white transition-colors">关于我</a>
+            <a href="#experience" className="hover:text-white transition-colors">经历</a>
             <a href="#projects" className="hover:text-white transition-colors">项目</a>
             <a href="#contact" className="hover:text-white transition-colors">联系</a>
             <a href="https://github.com/asdccyf" target="_blank"
@@ -30,7 +49,7 @@ export default function Home() {
       </nav>
 
       {/* 主背景区域 */}
-      <BackgroundPaths title="欢迎来到我的世界" />
+      <BackgroundPaths title="Hi, I'm Yifei Chen" />
 
       {/* 个人信息区域 */}
       <section id="about" className="min-h-screen bg-neutral-950 flex items-center justify-center py-20">
@@ -43,26 +62,31 @@ export default function Home() {
               height={200}
               className="rounded-full mx-auto mb-8 shadow-2xl"
             />
-            <h2 className="text-4xl font-bold text-white mb-4">关于我</h2>
-            <p className="text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
-              我是一名充满热情的开发者，专注于创建优雅的用户体验和高质量的代码。
-              热爱学习新技术，享受解决复杂问题的过程。
+            <h3 className="text-4xl font-bold text-white mb-4">关于我</h3>
+            <p className="text-lg text-gray-300 max-w-2xl mx-auto leading-relaxed">
+              计算机科学本科与信息系统硕士背景，关注软件开发、AI 知识库应用与信息系统开发。
+              曾参与企业级知识库平台、自组网通信系统 Qt 客户端，以及多个数据库与移动端项目。
             </p>
+            <div className="flex flex-wrap justify-center gap-3 mt-6">
+              <span className="px-4 py-2 rounded-full bg-white/10 text-gray-200 text-sm">Software Development</span>
+              <span className="px-4 py-2 rounded-full bg-white/10 text-gray-200 text-sm">AI Applications</span>
+              <span className="px-4 py-2 rounded-full bg-white/10 text-gray-200 text-sm">Information Systems</span>
+              <span className="px-4 py-2 rounded-full bg-white/10 text-gray-200 text-sm">RAG Knowledge Base</span>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
-            <div className="bg-white/5 backdrop-blur-lg rounded-2xl p-6 border border-white/10">
-              <h3 className="text-xl font-semibold text-white mb-4">💻 前端开发</h3>
-              <p className="text-gray-300">React, Vue, TypeScript, Next.js</p>
-            </div>
-            <div className="bg-white/5 backdrop-blur-lg rounded-2xl p-6 border border-white/10">
-              <h3 className="text-xl font-semibold text-white mb-4">🎨 设计</h3>
-              <p className="text-gray-300">UI/UX 设计, Figma, 用户体验</p>
-            </div>
-            <div className="bg-white/5 backdrop-blur-lg rounded-2xl p-6 border border-white/10">
-              <h3 className="text-xl font-semibold text-white mb-4">⚡ 性能优化</h3>
-              <p className="text-gray-300">Web性能, SEO优化, 用户体验提升</p>
-            </div>
+            {skills.map((skill) => (
+              <div
+                key={skill.title}
+                className="bg-white/5 backdrop-blur-lg rounded-2xl p-6 border border-white/10"
+              >
+                <h3 className="text-xl font-semibold text-white mb-4">
+                  {skill.icon} {skill.title}
+                </h3>
+                <p className="text-gray-300">{skill.description}</p>
+              </div>
+            ))}
           </div>
 
           {/* 社交媒体链接 */}
