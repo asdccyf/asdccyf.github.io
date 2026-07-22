@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
+import SpecularButton from "@/components/ui/specular-button";
 
 function FloatingPaths({ position }: { position: number }) {
     const paths = Array.from({ length: 36 }, (_, i) => ({
@@ -97,36 +97,28 @@ export function BackgroundPaths({
                         ))}
                     </h1>
 
-                    <div
-                        className="inline-block group relative bg-gradient-to-b from-white/10 to-white/5 
-                        p-px rounded-2xl backdrop-blur-lg 
-                        overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300"
+                    <SpecularButton
+                        size="lg"
+                        radius={18}
+                        tint="#ffffff"
+                        tintOpacity={0.06}
+                        blur={8}
+                        textColor="#f5f5f5"
+                        lineColor="#ffffff"
+                        baseColor="#525252"
+                        intensity={1}
+                        shineSize={10}
+                        shineFade={40}
+                        thickness={1}
+                        followMouse
+                        proximity={250}
+                        autoAnimate={false}
+                        href="/resume-yifei-chen.pdf"
+                        target="_blank"
+                        rel="noopener noreferrer"
                     >
-                        <Button
-                            asChild
-                            variant="ghost"
-                            className="rounded-[1.15rem] px-8 py-6 text-lg font-semibold backdrop-blur-md 
-                            bg-black/50 hover:bg-black/70 text-white transition-all duration-300 
-                            group-hover:-translate-y-0.5 border border-white/10
-                            hover:shadow-md hover:shadow-white/20"
-                        >
-                            <a
-                                href="/resume-yifei-chen.pdf"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                <span className="opacity-90 group-hover:opacity-100 transition-opacity">
-                                    查看我的简历
-                                </span>
-                                <span
-                                    className="ml-3 opacity-70 group-hover:opacity-100 group-hover:translate-x-1.5 
-                                    transition-all duration-300"
-                                >
-                                    →
-                                </span>
-                            </a>
-                        </Button>
-                    </div>
+                        查看我的简历 →
+                    </SpecularButton>
                 </motion.div>
             </div>
         </div>

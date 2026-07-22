@@ -1,4 +1,5 @@
 import { BackgroundPaths } from "@/components/ui/background-paths";
+import SpecularButton from "@/components/ui/specular-button";
 import { SiteNav } from "@/components/site-nav";
 import Image from "next/image";
 
@@ -7,6 +8,13 @@ const contactLinks = {
   github: "https://github.com/asdccyf",
   linkedin: "https://www.linkedin.com/in/yourprofile",
 };
+
+const tags = [
+  "Software Development",
+  "AI Applications",
+  "Information Systems",
+  "RAG Knowledge Base",
+];
 
 const skills = [
   {
@@ -51,10 +59,28 @@ export default function Home() {
               曾参与企业级知识库平台、自组网通信系统 Qt 客户端，以及多个数据库与移动端项目。
             </p>
             <div className="flex flex-wrap justify-center gap-3 mt-6">
-              <span className="px-4 py-2 rounded-full bg-white/10 text-gray-200 text-sm">Software Development</span>
-              <span className="px-4 py-2 rounded-full bg-white/10 text-gray-200 text-sm">AI Applications</span>
-              <span className="px-4 py-2 rounded-full bg-white/10 text-gray-200 text-sm">Information Systems</span>
-              <span className="px-4 py-2 rounded-full bg-white/10 text-gray-200 text-sm">RAG Knowledge Base</span>
+              {tags.map((tag) => (
+                <SpecularButton
+                  key={tag}
+                  size="sm"
+                  radius={999}
+                  tint="#ffffff"
+                  tintOpacity={0.08}
+                  blur={8}
+                  textColor="#e5e5e5"
+                  lineColor="#ffffff"
+                  baseColor="#737373"
+                  intensity={1}
+                  shineSize={10}
+                  shineFade={40}
+                  thickness={1}
+                  followMouse
+                  proximity={200}
+                  autoAnimate={false}
+                >
+                  {tag}
+                </SpecularButton>
+              ))}
             </div>
           </div>
 
